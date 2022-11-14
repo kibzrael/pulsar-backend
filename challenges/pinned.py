@@ -1,0 +1,28 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http.response import JsonResponse
+from users.models import User
+from pulsar.decorators.jwt_required import jwt_required
+from pages.querysets import pinned_challenges
+
+
+@jwt_required()
+def pinned_challenges_view(request, **kwargs):
+
+    limit = int(request.GET.get("limit", 12))
+    offset = int(request.GET.get("offset", 0)) * limit
+
+    request_user_id = kwargs.get("request_user")
+
+    try:
+        request_user = User.objects.get(id=request_user_id)
+    except ObjectDoesNotExist:
+        return JsonResponse(
+            status=403,
+            data={"message": "You are not authorized to access this endpoint"},
+        )
+
+    # pinned + in user's category
+    # pass offset and limit
+    challenges = pinned_challenges(request_user, offset=offset, limit=limit)
+
+    return JsonResponse(status=200, data={"challenges": challenges})

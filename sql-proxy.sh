@@ -1,0 +1,1 @@
+export GOOGLE_CLOUD_PROJECT=pulsar-inc && export USE_CLOUD_SQL_AUTH_PROXY=true && ~/Downloads/Programs/cloud_sql_proxy -instances="pulsar-inc:us-central1:pulsar"=tcp:5433
