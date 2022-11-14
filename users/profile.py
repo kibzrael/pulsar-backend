@@ -6,7 +6,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.decorators import method_decorator
 from media.serializers import Photo
 
-from users.models import User, UserSerializer
+from users.models import User
+from users.serializers import UserSerializer
 from users.category import Category
 from pulsar.decorators.jwt_required import jwt_required
 from media.photo import upload_photo

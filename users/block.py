@@ -1,7 +1,8 @@
 from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
-from users.models import Block, User, MinimalUserSerializer
+from users.models import Block, User
+from users.serializers import MinimalUserSerializer
 
 from pulsar.decorators.jwt_required import jwt_required
 

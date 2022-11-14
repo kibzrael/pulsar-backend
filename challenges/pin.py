@@ -2,7 +2,8 @@ from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 from challenges.models import Challenge, Pin
-from users.models import User, MinimalUserSerializer
+from users.models import User
+from users.serializers import MinimalUserSerializer
 
 from pulsar.decorators.jwt_required import jwt_required
 

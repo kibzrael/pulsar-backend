@@ -2,7 +2,8 @@ from typing import List
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 from django.db.models.query_utils import Q
-from users.models import User, MinimalUserSerializer
+from users.models import User
+from users.serializers import MinimalUserSerializer
 from pulsar.decorators.jwt_required import jwt_required
 from users.interests import get_interests
 

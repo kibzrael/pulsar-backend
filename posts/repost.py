@@ -3,7 +3,8 @@ from django.views import View
 from django.http.response import JsonResponse
 
 from posts.models import Post, Repost
-from users.models import User, MinimalUserSerializer
+from users.models import User
+from users.serializers import MinimalUserSerializer
 
 from pulsar.decorators.jwt_required import jwt_required
 

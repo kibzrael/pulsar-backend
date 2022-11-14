@@ -5,7 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from posts.models import Post, Comment, CommentLike
 from posts.serializers import CommentSerializer
-from users.models import User, MinimalUserSerializer
+from users.models import User
+from users.serializers import MinimalUserSerializer
 
 from pulsar.decorators.jwt_required import jwt_required
 from posts.create_post import save_hashtags

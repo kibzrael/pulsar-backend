@@ -114,16 +114,17 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
 
 if not os.getenv("GAE_APPLICATION", None):
     # use local database
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "pulsar",
-            "USER": "root",
-            "PASSWORD": "kibzrael",
-            "PORT": 5432,
-            "HOST": "localhost",
-        }
-    }
+    print("Local Database")
+    # DATABASES = {
+    #     "default": {
+    #         "ENGINE": "django.db.backends.postgresql",
+    #         "NAME": "pulsar",
+    #         "USER": "root",
+    #         "PASSWORD": "kibzrael",
+    #         "PORT": 5432,
+    #         "HOST": "localhost",
+    #     }
+    # }
 
 
 # Password validation

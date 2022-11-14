@@ -1,8 +1,8 @@
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:savoury1/ffmpeg4
+# RUN add-apt-repository ppa:savoury1/ffmpeg4
 # RUN add-apt-repository ppa:deadsnakes/ppa -y
 # RUN rm -rf /var/lib/apt/lists/*
 # RUN apt clean

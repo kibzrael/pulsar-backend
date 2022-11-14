@@ -2,7 +2,8 @@ from django.contrib.auth import login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from users.models import Device, User, UserSerializer
+from users.models import Device, User
+from users.serializers import UserSerializer
 from users.interests import get_interests
 
 

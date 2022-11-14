@@ -5,7 +5,8 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 
 #
-from users.models import Device, User, UserSerializer
+from users.models import Device, User
+from users.serializers import UserSerializer
 from users.interests import get_interests
 
 
