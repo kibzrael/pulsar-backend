@@ -106,6 +106,9 @@ WSGI_APPLICATION = "pulsar.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {"default": env.db()}
+DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql_psycopg2"
+DATABASES["default"]["HOST"] = "/cloudsql/pulsar-inc-1:europe-west1:pulsar"
+DATABASES["default"]["PORT"] = 5432
 
 # If the flag as been set, configure to use proxy
 if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
@@ -114,7 +117,7 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
 
 if not os.getenv("GAE_APPLICATION", None):
     # use local database
-    print("Local Database")
+    pass
     # DATABASES = {
     #     "default": {
     #         "ENGINE": "django.db.backends.postgresql",
@@ -159,6 +162,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://pulsar-inc.uc.r.appspot.com",
+    "https://pulsar-inc-1.ew.r.appspot.com",
+]
+
+APPEND_SLASH = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

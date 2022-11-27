@@ -11,19 +11,23 @@ from users.serializers import UserSerializer
 from users.category import Category
 from pulsar.decorators.jwt_required import jwt_required
 from media.photo import upload_photo
-from users.interests import save_interests
+from users.interests import get_interests, save_interests
 
 
 @method_decorator(csrf_exempt, name="dispatch")
 class Profile(View):
     @jwt_required()
     def get(self, request, user_id, **kwargs):
+        request_user_id = kwargs.get("request_user")
 
         try:
             user = User.objects.get(id=user_id)
             user_info = UserSerializer(
                 instance=user, context={"request_user_id": kwargs.get("request_user")}
             ).data
+            if user_id == request_user_id:
+                fetched_interests = get_interests(user)
+                user_info["interests"] = fetched_interests
         except ObjectDoesNotExist:
             return JsonResponse(
                 status=404,
@@ -142,6 +146,9 @@ class Profile(View):
         save_interests(user, interests)
 
         user_info = UserSerializer(instance=user).data
+
+        fetched_interests = get_interests(user)
+        user_info["interests"] = fetched_interests
 
         return JsonResponse(
             status=200,

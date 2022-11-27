@@ -20,6 +20,7 @@ urlpatterns = [
     path("auth/", include("authentication.urls")),
     path("challenges/", include("challenges.urls")),
     path("posts/", include("posts.urls")),
+    path("pages/", include("pages.urls")),
     path("users/", include("users.urls")),
     path("admin/", admin.site.urls),
 ]

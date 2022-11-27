@@ -2,6 +2,7 @@ from django.urls import path
 
 from users.profile import Profile
 from users.categories import create_category, get_categories
+from users.load_categories import load_categories
 from users.posts import user_posts
 from users.follow import FollowView
 from users.block import BlockView
@@ -14,6 +15,7 @@ urlpatterns = [
     #
     path("create_category", create_category, name="create_category"),
     path("categories", get_categories),
+    path("categories/load", load_categories),
     #
     path("<int:user_id>/posts", user_posts),
     path("<int:user_id>/followers", FollowView.as_view()),
