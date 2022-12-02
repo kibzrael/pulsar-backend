@@ -7,6 +7,9 @@ class Interest(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
+    def __str__(self) -> str:
+        return self.user.username + ": " + str(self.category.name)
+
 
 class Follow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followedId")

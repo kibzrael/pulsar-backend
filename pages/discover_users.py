@@ -45,7 +45,7 @@ def discover_users(request, **kwargs):
             | Q(interest__category__parent__in=interests_id)
             | Q(interest__category__subcategoryId__in=interests_id)
         )
-        .exclude(id=request_user.id)
+        .exclude(id=request_user.id, followedId__follower__id=request_user.id)
         .distinct("id")[offset : limit + offset]
     )
 
