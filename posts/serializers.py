@@ -5,6 +5,12 @@ from challenges.serializers import MinimialChallengeSerializer
 from media.serializers import PhotoSerializer, VideoSerializer
 from users.serializers import MinimalUserSerializer
 
+from django.db.models import Count
+
+points_calculation = (
+    Count("post_like") * 5 + Count("post_comment") * 10 + Count("post_repost") * 20
+)
+
 
 class PostSerializer(serializers.ModelSerializer):
     user = MinimalUserSerializer()
@@ -18,6 +24,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     is_liked = serializers.SerializerMethodField(method_name="is_liked_method")
     is_reposted = serializers.SerializerMethodField(method_name="is_reposted_method")
+
+    points = serializers.SerializerMethodField(method_name="points_method")
 
     def is_liked_method(self, instance):
         request_user_id = self.context.get("request_user_id")
@@ -34,6 +42,17 @@ class PostSerializer(serializers.ModelSerializer):
             ).exists()
         except:
             return False
+
+    def points_method(self, instance):
+        try:
+            post = (
+                Post.objects.annotate(points=points_calculation)
+                .values("points")
+                .get(id=instance.id)
+            )
+            return post.get("points")
+        except:
+            return 0
 
     class Meta:
         model = Post
@@ -53,6 +72,7 @@ class PostSerializer(serializers.ModelSerializer):
             "filter_name",
             "ratio",
             "reposts",
+            "points",
         ]
 
 
