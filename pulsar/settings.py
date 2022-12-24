@@ -38,6 +38,9 @@ elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
 else:
     raise Exception("No environment variables to run this application.")
 
+GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = env("GOOGLE_CLIENT_SECRET")
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -107,7 +110,7 @@ WSGI_APPLICATION = "pulsar.wsgi.application"
 
 DATABASES = {"default": env.db()}
 DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql_psycopg2"
-DATABASES["default"]["HOST"] = "/cloudsql/pulsar-inc-1:europe-west1:pulsar"
+DATABASES["default"]["HOST"] = env("DATABASE_HOST")
 DATABASES["default"]["PORT"] = 5432
 
 # If the flag as been set, configure to use proxy

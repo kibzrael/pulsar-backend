@@ -54,3 +54,11 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
+
+
+class Provider(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=12, null=False)
+    provider_id = models.CharField(max_length=255, null=False)
+    access_token = models.CharField(max_length=2048, null=False)
+    refresh_token = models.CharField(max_length=255, null=True)

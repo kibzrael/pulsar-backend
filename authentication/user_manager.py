@@ -6,7 +6,7 @@ from users.category import Category
 
 class UserManager(BaseUserManager):
     def create_user(
-        self, username, email, password, category: str = "Personal Account"
+        self, username, email, password=None, category: str = "Personal Account"
     ):
         try:
             category_object = Category.objects.get(name__iexact=category)
@@ -59,8 +59,8 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             category=category_object,
         )
-
-        user.set_password(password)
+        if password:
+            user.set_password(password)
         user.save(using=self._db)
         return user
 
