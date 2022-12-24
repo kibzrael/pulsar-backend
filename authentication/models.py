@@ -62,3 +62,11 @@ class Provider(models.Model):
     provider_id = models.CharField(max_length=255, null=False)
     access_token = models.CharField(max_length=2048, null=False)
     refresh_token = models.CharField(max_length=255, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "name"], name="Login Provider")
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.user.username}@{self.name}"

@@ -18,9 +18,6 @@ class UserManager(BaseUserManager):
         if not username:
             raise ValueError("Please provide a username")
 
-        if not password:
-            raise ValueError("Please provide a password")
-
         if not email:
             raise ValueError("Users must have an email address.")
 
