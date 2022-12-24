@@ -1,4 +1,3 @@
-from datetime import datetime
 import io
 from typing import List
 from PIL import Image
@@ -9,7 +8,6 @@ from firebase_admin.storage import bucket
 from google.cloud.storage import blob
 
 from media.cert import firebase_initialization
-from media.cuttly import delete_link, shorten_url
 
 
 def upload_photo(img: InMemoryUploadedFile, path: str, previous_links: List) -> List:

@@ -27,9 +27,11 @@ def leaderboard(request, challenge_id, *args, **kwargs):
 
     try:
         user_post = points_queryset.values().get(user__id=request_user_id)
-        rank = points_queryset.filter(points__gte=user_post.get("points")).count()
+        points = user_post.get("points")
+        rank = points_queryset.filter(points__gte=points).count()
     except ObjectDoesNotExist:
         rank = 0
+        points = 0
 
     results = points_queryset.order_by("-points")[offset : offset + limit]
 
@@ -40,4 +42,6 @@ def leaderboard(request, challenge_id, *args, **kwargs):
         ).data
         data.append(post_data)
 
-    return JsonResponse(status=200, data={"you": rank, "data": data})
+    return JsonResponse(
+        status=200, data={"you": {"rank": rank, "points": points}, "data": data}
+    )

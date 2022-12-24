@@ -8,7 +8,9 @@ from users.serializers import MinimalUserSerializer
 from django.db.models import Count
 
 points_calculation = (
-    Count("post_like") * 5 + Count("post_comment") * 10 + Count("post_repost") * 20
+    Count("post_like", distinct=True) * 5
+    + Count("post_comment", distinct=True) * 10
+    + Count("post_repost", distinct=True) * 20
 )
 
 
