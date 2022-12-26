@@ -41,7 +41,6 @@ def create_category(request, **kwargs):
     )
 
 
-@jwt_required()
 def get_categories(request, **kwargs):
     categories = Category.objects.filter(parent__isnull=True).values()
 
