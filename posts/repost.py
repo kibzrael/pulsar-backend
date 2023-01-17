@@ -3,6 +3,7 @@ from django.views import View
 from django.http.response import JsonResponse
 
 from posts.models import Post, Repost
+from users.activity import Activity, activity
 from users.models import User
 from users.serializers import MinimalUserSerializer
 
@@ -33,8 +34,10 @@ class RepostsView(View):
         reposts = []
         for repost in reposts_query:
             reposts.append(
-                MinimalUserSerializer(instance=repost).data,
-                context={"request_user_id": kwargs.get("request_user")},
+                MinimalUserSerializer(
+                    instance=repost,
+                    context={"request_user_id": kwargs.get("request_user")},
+                ).data,
             )
         return JsonResponse(status=200, data={"reposts": reposts})
 
@@ -62,7 +65,7 @@ class RepostsView(View):
         except ObjectDoesNotExist:
             repost = Repost(user=user, post=post)
             repost.save()
-
+            activity(post.user, Activity.repost, user, post)
             return JsonResponse(
                 status=200, data={"message": "You have successfully reposted the post"}
             )
@@ -79,12 +82,6 @@ class RepostsView(View):
         try:
             post = Post.objects.get(id=post_id)
             user = User.objects.get(id=request_user_id)
-
-            if post.user.id != request_user_id:
-                return JsonResponse(
-                    status=403,
-                    data={"message": "You are not authorized to access this endpoint"},
-                )
         except ObjectDoesNotExist:
             return JsonResponse(
                 status=404, data={"message": "The post you've entered does not exist."}

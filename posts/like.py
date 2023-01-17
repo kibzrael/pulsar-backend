@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 
 from posts.models import Post, Like
+from users.activity import Activity, activity
 from users.models import User
 from users.serializers import MinimalUserSerializer
 
@@ -33,8 +34,10 @@ class LikesView(View):
         likes = []
         for like in likes_query:
             likes.append(
-                MinimalUserSerializer(instance=like).data,
-                context={"request_user_id": kwargs.get("request_user")},
+                MinimalUserSerializer(
+                    instance=like,
+                    context={"request_user_id": kwargs.get("request_user")},
+                ).data,
             )
         return JsonResponse(status=200, data={"likes": likes})
 
@@ -56,7 +59,7 @@ class LikesView(View):
         except ObjectDoesNotExist:
             like = Like(user=user, post=post)
             like.save()
-
+            activity(post.user, Activity.like, user, post)
             return JsonResponse(
                 status=200, data={"message": "You have successfully liked the post"}
             )
@@ -73,12 +76,6 @@ class LikesView(View):
         try:
             post = Post.objects.get(id=post_id)
             user = User.objects.get(id=request_user_id)
-
-            if post.user.id != request_user_id:
-                return JsonResponse(
-                    status=403,
-                    data={"message": "You are not authorized to access this endpoint"},
-                )
         except ObjectDoesNotExist:
             return JsonResponse(
                 status=404, data={"message": "The post you've entered does not exist."}

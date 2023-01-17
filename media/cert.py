@@ -3,24 +3,23 @@ import firebase_admin
 
 firebase_certificate: dict = {
     "type": "service_account",
-    "project_id": "pulsar-2217f",
-    "private_key_id": "60076137269dbc10a6a214da07bd37479e6277ff",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC37iiRYSWjUePn\nCfZiX3O4c4i4viOhEvkXFhHwWJdxtQh6SQrgMZxDJQU46Yix6yBCrmREfNdZQZjo\nflcoe/qAXl7JQUMHGnSPhLf/7nZEr8+EHQh0R86JLMswivA6NJI0RjmQKFVWgF8A\n2ersN3BnQHL3w5DFqzsKeB0BXI9yJFRcki380G8C9ATFsDA6+jPJ+OsS9/BlzuUY\nTmlPN9Ip+ccjKwoPJcYRGePMauTQCDJ4N/43g37HwujzlUz3jloQdT5xQkQ4tieB\nRfsNfREIxNYJEjrlCpT75VgOdLx2xSXHJxV1PdMIEo2RlrkVAsIjvZje0oO3WnAJ\nddbcR/+zAgMBAAECggEAHahl2zdOcdzJAl6dX3RjvPjIMX3bUeQ0zQ+uedJXLSsT\nQGCZw9fMChmkk244r/OpYocrPM3ijY5hwQ9qL2l6VYuh/hKrY7BU3jV40+hYIrA0\npmlmDRXtDDpwUxX8MW57qrkuG/wc8pNFfmYlFszDr6p5P1FF/VGkdgYzKx6JNM63\n1SInvSkZ9kICfzYV4MXHRBI1CXjX8nkrAb87xFmNtZL6vaADGUxyBHc04wmMqfWF\nO2rgxmtGOSbqqvnpvpA19yTwNh/CDIq9eORaMGyIXUUj03oKVI0QtM22cCkPYSGq\njmEmjrJh1LRkRePsjSdW0a10yLTrHKR6QBOXdmkcEQKBgQDgUGIQDkdjgfgPEavt\nBhl7M2/r2PTkPD4H4LK/fSLAkdlJhbgU7RGCuLY2V/IXRSBABU5tJx5tteRLciC7\nfOLi0k0jNatvy9EK0BKDYVccrS8qZt0YAJhYTvi0LY+Fz2c+dXfqufguIoxhmyuX\nL/wAu8MCmJW2KrxKSRloOxGf4wKBgQDR6WzQ+QRAXd7Vu4+RRphDMj5O2b5oRWXa\nTNXst3BcKyIR3u+REDZEgp7gHbkRScjAoZd5jvI2Itw1jtBHlKoe32oG1WhvLlBx\nCoxDVtumF0HfglSV1ry/X6wP3ZB/Nz1BbHXQs8OBbcLnpxmwSeDtsICjYFK7LEi1\nLO4iP2CJ8QKBgG1CeiF78wXjHqKoZufy2qKJ8XAdo1swhL5tkmN3XmASKpaHTZzT\nxH253vcla0QuZYEJlKPSNB4YRPUCyDLKp/D3op8N201/J3lu1DWuSjIroRe0Nukk\nERCilr2cm5X/6jggG6L3po1CQsKgRGFF/CeXTWuMSxAKTOCaLof4jaMlAoGBALcr\nnczsvwz73MtdE/aNR6i7WyurTj/m7u4DRll96QpEiUJW624GW5SE9uZSiX/QhuGx\nIGDun+UlnksOCCmuTJUMF5VG/A6ot4Es1yCb1qeke9LyA6WM8L9+WMKvcLvSFB3W\n6yfm9Z8njIBgjEYM8b332wi1sPurtPaD8njoHPHBAoGANeNNFP0OTIG1NG2lIdYk\nSk3KS8bykTExvSaVHQyv309L6eF27bT+jRFedW/iJMBGAx9/B5OB/Oorsqeu3JAP\n22egQFm+/2FVb2RU2NRJZwDXOoDg4mRKzWssb1yKR30DjfJpnPXSkeSZ+Owr2QpU\nc/ZBuvEQlnS7QUEkLVWbEGk=\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-rddlj@pulsar-2217f.iam.gserviceaccount.com",
-    "client_id": "101307726227485938631",
+    "project_id": "pulsar-inc-1",
+    "private_key_id": "63e2e59e3be08fb5db9d2d70d2a6519c0f89556e",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDCArnziQ4kgq7r\npzx6CeuwJp1IbK4S5+DjpP9SHyS9vJaE87MdZvOcb4d+ZtACXPeJGyzC4yCXPAkd\nOHvN/ssYipdZwEVPDkorKoz9SKa3Q8/AnVnTc5qpVSgoutTlI6yiPcNF12+xxQKh\n0k3jOtzg0LDvc21OBz+uUyNgSO98gxQSYpURd+mi1NztqnszhKDCczrEdtVALXWQ\n2De6Up/XmJoXGZYQML0FEzOp8qP1TMhIJAKN1GyQUV8mqD5yqknaLvdAO1hewfPe\nnoOjKL9qJAg+AKKvJESDRh+vWxbmx9OTfUimJGixpzQx8Hr26SYcdObHprYX5ErC\nbpQJDLCNAgMBAAECggEAKo38iZ2LW5jKk2foTQB2EPo3T5Z/DCiOXIBpfHLWVUPT\nZDAsHovhbXPNLX2RrKMFrK4oQEsfb+y8NwuXpFR56dUkY4xX54JD5Hn92OShpNsb\n66zX8hiOWQwTtfNdFTGhASk49s3Ncxm6fRIrAWd84VcFKFCSLiZK4orb3JfC5/Va\niwpdHvh40eZB4IhjxKWyn8wuUz4SamoNKekfxaclYiwM78mGNKxNx27uDMzzELd2\n7j/tce0lgPT63psFkcimS441eXBAnhT4hu4sGVdr6YKHQCuv1lByRrY803iwLhBq\nlj5TU2pxuroxf6+7eVpntIR0zvBLY27eiSOiS2zDJQKBgQDotqRCIbBWeTULptWw\n5IaIfYu0ENJqDw3zrtI9cDDLxYz15li+R9cSkCCNvLlubwbDkH+3ujjGCQ8njtmt\nuHTwUJF9NxjD5Rmx8zUGTV6zkUFdl1kZ6pKM+Z6rsSvhrd1h6n6+lec4AO/R5sOF\nE/KpTGJQ97j9CE/oZ+59hdpdJwKBgQDVbKVDppxkerlFJM/VhwKqs4SGhB8gcKyK\nvAhDSpi8hZAQnNgHqqwBVRNRiTpHrXF1yjNxq4KWBJHg6FuJLhFf8e30I2zytn/E\nehU3483n/+Ds9UfrUjbq7kgqwDySFM6UYBZJNXILN75FmyHvHiSuqSPRdt2QiHpv\n/qz51uV9KwKBgAbeDO7eq6OBpC0Z2UiFFetFOTAxJuR2WUUNraqeevIofEZta8UB\nvbkQg8VrAlXd9OckhoBXgIFnlwjl0EquHNVSq1h0nch6JE36DWCIO/k0mic25iw7\nneOHIkWSzua0CMpw7xiUt+QRMwKQushclFamqGgXR2BANIt5NbKClrUVAoGAS5F1\njteehoFhulbHdD6ithhsM0jy0IS0w0bC0jjGjfHoyckPQN+wmaQq+/LP/PMvulpH\nDteAnGev02fSiWcTZdp+u7QTbnkqEkJ74tc5YA0c8ioDNhJdOZ/3U5PPnpXZc3X2\nTiOrZsdtCq5cPJN6v5FKCm/BEd0RJTiSvL/XcBMCgYAH0BK644xSF7UgzHy4/4ob\nKNFxncR+paxLP55Zfvd7LYMf5Ygal/kufcP5vAuys1f8QT1uVfflMknK54Fdbwkn\n2/Y9ELJISSDWyFoaYsqxEWTU22wRsbJeNU4JriXI5GY5Ia/Do94TwIDiiOKp72BV\nez9Y34HKH8bA7a87nS2FVw==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-i6jpf@pulsar-inc-1.iam.gserviceaccount.com",
+    "client_id": "110984677114082682729",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-rddlj%40pulsar-2217f.iam.gserviceaccount.com"
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-i6jpf%40pulsar-inc-1.iam.gserviceaccount.com",
 }
 
 
 def firebase_initialization():
-    cred_object = firebase_admin.credentials.Certificate(
-        firebase_certificate)
+    cred_object = firebase_admin.credentials.Certificate(firebase_certificate)
     try:
-        firebase_admin.initialize_app(cred_object, {
-            'storageBucket': 'pulsar-2217f.appspot.com'
-        })
+        firebase_admin.initialize_app(
+            cred_object, {"storageBucket": "pulsar-inc-1.appspot.com"}
+        )
     except:
-        print('Already initialized')
+        print("Already initialized")

@@ -2,6 +2,7 @@ from datetime import datetime
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 from django.http.response import JsonResponse
 
 from authentication.models import Provider, User
@@ -47,6 +48,10 @@ def sign_in(request):
             linked = True
         except ObjectDoesNotExist:
             pass
+        except IntegrityError:
+            return JsonResponse(
+                status=422, data={"message": "The user is already linked to an account"}
+            )
 
     if provider:
         if device_token:

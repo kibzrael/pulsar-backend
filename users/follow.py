@@ -1,6 +1,7 @@
 from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
+from users.activity import activity, Activity
 from users.models import Follow, User
 from users.serializers import MinimalUserSerializer
 
@@ -62,7 +63,7 @@ class FollowView(View):
         except ObjectDoesNotExist:
             follow = Follow(user=user, follower=request_user)
             follow.save()
-
+            activity(user, Activity.follow, request_user)
             return JsonResponse(
                 status=200,
                 data={"message": f"You have successfully followed @{user.username}"},

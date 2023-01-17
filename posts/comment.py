@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from posts.models import Post, Comment, CommentLike
 from posts.serializers import CommentSerializer
+from users.activity import Activity, activity
 from users.models import User
 from users.serializers import MinimalUserSerializer
 
@@ -89,6 +90,7 @@ class CommentsView(View):
         comment_info = CommentSerializer(
             instance=comment_object, context={"request_user_id": request_user}
         ).data
+        activity(post.user, Activity.comment, comment=comment_object)
         return JsonResponse(status=200, data={"comment": comment_info})
 
 
