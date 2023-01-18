@@ -27,8 +27,6 @@ def discover_users(request, **kwargs):
 
     interests_id = list(map(lambda x: x["id"], interests))
 
-    print(interests_id)
-
     # same category or category in user's interests
     users_query = (
         User.objects.filter(
@@ -45,7 +43,7 @@ def discover_users(request, **kwargs):
             | Q(interest__category__parent__in=interests_id)
             | Q(interest__category__subcategoryId__in=interests_id)
         )
-        .exclude(id=request_user.id, followedId__follower__id=request_user.id)
+        .exclude(Q(id=request_user.id) | Q(followedId__follower__id=request_user.id))
         .distinct("id")[offset : limit + offset]
     )
 

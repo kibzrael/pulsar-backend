@@ -4,9 +4,15 @@ from django.http.response import JsonResponse
 
 from users.models import PostNotification, User
 from users.serializers import MinimalUserSerializer
+from posts.models import Post
 from pulsar.decorators.jwt_required import jwt_required
+from users.activity import Activity, activity
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class PostNotificationView(View):
     # get tracked users of a certain user
     @jwt_required()
@@ -42,7 +48,7 @@ class PostNotificationView(View):
 
     # track a certain user
     @jwt_required()
-    def user(self, request, user_id, **kwargs):
+    def post(self, request, user_id, **kwargs):
         request_user_id = kwargs.get("request_user")
         if user_id == request_user_id:
             return JsonResponse(
@@ -100,3 +106,9 @@ class PostNotificationView(View):
             status=200,
             data={"message": f"You have successfully untracked @{user.username}"},
         )
+
+
+def handle_notifications(post: Post):
+    tracked_query = User.objects.filter(notifyId__user=post.user)
+    for user in tracked_query:
+        activity(user, Activity.notification, post.user, post)

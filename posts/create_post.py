@@ -14,6 +14,7 @@ from users.category import Category
 from pulsar.decorators.jwt_required import jwt_required
 from media.photo import upload_photo
 from media.video import upload_video
+from users.notification import handle_notifications
 
 
 @csrf_exempt
@@ -112,6 +113,7 @@ def create_post(request, **kwargs):
     hashtags = save_hashtags(post, caption)
     save_tags(post, tags)
     save_mentions(post, caption)
+    handle_notifications(post)
 
     post_info = PostSerializer(instance=post).data
     return JsonResponse(

@@ -59,7 +59,8 @@ class LikesView(View):
         except ObjectDoesNotExist:
             like = Like(user=user, post=post)
             like.save()
-            activity(post.user, Activity.like, user, post)
+            if post.user.id != user.id:
+                activity(post.user, Activity.like, user, post)
             return JsonResponse(
                 status=200, data={"message": "You have successfully liked the post"}
             )

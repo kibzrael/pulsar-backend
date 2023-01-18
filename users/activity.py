@@ -1,9 +1,10 @@
 import enum
-from users.models import User
+from authentication.models import User
+from users.models import Device
 from posts.models import Post, Comment
 from django.utils import timezone
 
-from firebase_admin import firestore
+from firebase_admin import firestore, messaging
 from firebase_admin.firestore import firestore as fr
 from media.cert import firebase_initialization
 
@@ -30,7 +31,7 @@ def activity(
         media = comment.post.thumbnail.thumbnail
         description = f"Commented your post: {comment.comment}"
     elif post:
-        media = post.thumbnail.thumbnail
+        media = post.thumbnail.high
 
     if activity_type == Activity.like:
         description = f"Liked your post"
@@ -38,6 +39,8 @@ def activity(
         description = f"Reposted your post"
     elif activity_type == Activity.follow:
         description = f"Followed you"
+    elif activity_type == Activity.notification:
+        description = f"Shared a video"
 
     data = {
         "userId": user.id,
@@ -56,3 +59,21 @@ def activity(
         db.collection("users").document(str(receipient.id)).collection("activities")
     )
     col_ref.add(data)
+
+    device = Device.objects.filter(user__id=receipient.id).last()
+
+    if device:
+        print("Device Found")
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title=f"@{data['username']}",
+                body=description,
+                image=media,
+            ),
+            android=messaging.AndroidConfig(
+                notification=messaging.AndroidNotification(icon=data["thumbnail"])
+            ),
+            token=device.token,
+        )
+        response = messaging.send(message)
+        print(f"Successfully sent: {response}")

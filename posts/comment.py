@@ -90,7 +90,8 @@ class CommentsView(View):
         comment_info = CommentSerializer(
             instance=comment_object, context={"request_user_id": request_user}
         ).data
-        activity(post.user, Activity.comment, comment=comment_object)
+        if post.user.id != comment_object.user.id:
+            activity(post.user, Activity.comment, comment=comment_object)
         return JsonResponse(status=200, data={"comment": comment_info})
 
 

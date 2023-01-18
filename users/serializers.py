@@ -49,7 +49,6 @@ class MinimalUserSerializer(serializers.ModelSerializer):
 
     def is_following_method(self, instance):
         request_user_id = self.context.get("request_user_id")
-        print(f"{instance.id}-{request_user_id}")
         try:
             return Follow.objects.filter(
                 user=instance, follower__id=request_user_id
