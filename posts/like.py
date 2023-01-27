@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 
 from posts.models import Post, Like
-from users.activity import Activity, activity
+from users.activity import ActivityType, activity
 from users.models import User
 from users.serializers import MinimalUserSerializer
 
@@ -60,7 +60,7 @@ class LikesView(View):
             like = Like(user=user, post=post)
             like.save()
             if post.user.id != user.id:
-                activity(post.user, Activity.like, user, post)
+                activity(post.user, ActivityType.like, user, post)
             return JsonResponse(
                 status=200, data={"message": "You have successfully liked the post"}
             )

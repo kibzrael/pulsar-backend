@@ -5,7 +5,7 @@ network:
   session_affinity: true
 
 beta_settings:
-  cloud_sql_instances: "pulsar-inc-1:europe-west1:pulsar"
+  cloud_sql_instances: "pulsarinc-dev:europe-west1:pulsar"
 
 runtime_config:
   python_version: 3
@@ -16,4 +16,4 @@ resources:
 
 automatic_scaling:
   min_num_instances: 1
-  max_num_instances: 1
+  max_num_instances: 2

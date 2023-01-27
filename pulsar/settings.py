@@ -41,6 +41,7 @@ else:
 GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = env("GOOGLE_CLIENT_SECRET")
 
+GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -168,6 +169,7 @@ USE_TZ = True
 CSRF_TRUSTED_ORIGINS = [
     "https://pulsar-inc.uc.r.appspot.com",
     "https://pulsar-inc-1.ew.r.appspot.com",
+    "https://pulsarinc-dev.ew.r.appspot.com",
 ]
 
 APPEND_SLASH = False

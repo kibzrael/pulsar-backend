@@ -3,7 +3,7 @@ from django.views import View
 from django.http.response import JsonResponse
 
 from posts.models import Post, Repost
-from users.activity import Activity, activity
+from users.activity import ActivityType, activity
 from users.models import User
 from users.serializers import MinimalUserSerializer
 
@@ -65,7 +65,7 @@ class RepostsView(View):
         except ObjectDoesNotExist:
             repost = Repost(user=user, post=post)
             repost.save()
-            activity(post.user, Activity.repost, user, post)
+            activity(post.user, ActivityType.repost, user, post)
             return JsonResponse(
                 status=200, data={"message": "You have successfully reposted the post"}
             )

@@ -6,7 +6,7 @@ from users.models import PostNotification, User
 from users.serializers import MinimalUserSerializer
 from posts.models import Post
 from pulsar.decorators.jwt_required import jwt_required
-from users.activity import Activity, activity
+from users.activity import ActivityType, activity
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -111,4 +111,4 @@ class PostNotificationView(View):
 def handle_notifications(post: Post):
     tracked_query = User.objects.filter(notifyId__user=post.user)
     for user in tracked_query:
-        activity(user, Activity.notification, post.user, post)
+        activity(user, ActivityType.notification, post.user, post)

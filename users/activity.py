@@ -1,15 +1,17 @@
 import enum
 from authentication.models import User
-from users.models import Device
+from pulsar.decorators.jwt_required import jwt_required
+from users.models import Activity, Device
 from posts.models import Post, Comment
-from django.utils import timezone
+from django.http.response import JsonResponse
 
 from firebase_admin import firestore, messaging
 from firebase_admin.firestore import firestore as fr
 from media.cert import firebase_initialization
+from users.serializers import ActivitySerializer
 
 
-class Activity(enum.Enum):
+class ActivityType(enum.Enum):
     follow = 1
     like = 2
     comment = 3
@@ -17,9 +19,28 @@ class Activity(enum.Enum):
     notification = 5
 
 
+@jwt_required()
+def fetch_activity(request, **kwargs):
+    request_user_id = kwargs.get("request_user")
+    limit = int(request.GET.get("limit", 20))
+    offset = int(request.GET.get("offset", 0)) * limit
+
+    query = Activity.objects.filter(receipient__id=request_user_id).order_by("-time")[
+        offset : limit + offset
+    ]
+    data = []
+    for result in query:
+        data.append(
+            ActivitySerializer(
+                instance=result, context={"request_user_id": request_user_id}
+            ).data
+        )
+    return JsonResponse(data={"activity": data})
+
+
 def activity(
     receipient: User,
-    activity_type: Activity,
+    activity_type: ActivityType,
     user: User = None,
     post: Post = None,
     comment: Comment = None,
@@ -28,30 +49,34 @@ def activity(
     description = ""
     if comment:
         user = comment.user
-        media = comment.post.thumbnail.thumbnail
+        media = comment.post.thumbnail
         description = f"Commented your post: {comment.comment}"
     elif post:
-        media = post.thumbnail.high
+        media = post.thumbnail
 
-    if activity_type == Activity.like:
+    if activity_type == ActivityType.like:
         description = f"Liked your post"
-    elif activity_type == Activity.repost:
+    elif activity_type == ActivityType.repost:
         description = f"Reposted your post"
-    elif activity_type == Activity.follow:
+    elif activity_type == ActivityType.follow:
         description = f"Followed you"
-    elif activity_type == Activity.notification:
+    elif activity_type == ActivityType.notification:
         description = f"Shared a video"
 
-    data = {
-        "userId": user.id,
-        "thumbnail": user.profile_pic.thumbnail,
-        "username": user.username,
-        "time": timezone.now(),
-        "description": description,
-        "media": media,
-        "link": "",
-        "type": activity_type.name,
-    }
+    activity_obj = Activity(
+        receipient=receipient,
+        user=user,
+        media=media,
+        description=description,
+        link="",
+        type=activity_type.name,
+    )
+    activity_obj.save()
+
+    data = ActivitySerializer(
+        instance=activity_obj, context={"request_user_id": receipient.id}
+    ).data
+    print(data)
 
     firebase_initialization()
     db = firestore.client()
@@ -66,12 +91,14 @@ def activity(
         print("Device Found")
         message = messaging.Message(
             notification=messaging.Notification(
-                title=f"@{data['username']}",
+                title=f"@{data['user']['username']}",
                 body=description,
-                image=media,
+                image=media.high,
             ),
             android=messaging.AndroidConfig(
-                notification=messaging.AndroidNotification(icon=data["thumbnail"])
+                notification=messaging.AndroidNotification(
+                    icon=user.profile_pic.thumbnail
+                )
             ),
             token=device.token,
         )

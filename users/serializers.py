@@ -2,7 +2,7 @@ from rest_framework import serializers
 from authentication.models import User
 from media.serializers import PhotoSerializer
 
-from users.models import Follow
+from users.models import Activity, Follow
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -66,3 +66,13 @@ class MinimalUserSerializer(serializers.ModelSerializer):
             "fullname",
             "is_following",
         ]
+
+
+class ActivitySerializer(serializers.ModelSerializer):
+    receipient = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = MinimalUserSerializer()
+    media = PhotoSerializer()
+
+    class Meta:
+        model = Activity
+        exclude = ["id"]

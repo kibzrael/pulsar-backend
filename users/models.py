@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils import timezone
 
 from authentication.models import User, Category
+from media.models import Photo
 
 
 class Interest(models.Model):
@@ -49,6 +51,18 @@ class PostNotification(models.Model):
             return
         else:
             super().save(*args, **kwargs)
+
+
+class Activity(models.Model):
+    receipient = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="receipientId"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userId")
+    media = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    description = models.CharField(max_length=255)
+    link = models.CharField(max_length=255, null=True)
+    type = models.CharField(max_length=24)
+    time = models.DateTimeField(default=timezone.now)
 
 
 class Device(models.Model):
