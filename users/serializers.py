@@ -75,4 +75,4 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Activity
-        exclude = ["id"]
+        fields = "__all__"

@@ -7,7 +7,7 @@ from users.posts import user_posts
 from users.follow import FollowView
 from users.block import BlockView
 from users.notification import PostNotificationView
-from users.activity import fetch_activity
+from users.activity import fetch_activity, mark_as_read
 from search.search_users import search_user
 
 
@@ -24,4 +24,5 @@ urlpatterns = [
     path("<int:user_id>/notifications", PostNotificationView.as_view()),
     path("search", search_user),
     path("activity", fetch_activity),
+    path("activity/read", mark_as_read),
 ]

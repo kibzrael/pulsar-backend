@@ -63,6 +63,7 @@ class Activity(models.Model):
     link = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=24)
     time = models.DateTimeField(default=timezone.now)
+    read = models.BooleanField(default=False)
 
 
 class Device(models.Model):

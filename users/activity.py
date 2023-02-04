@@ -38,6 +38,36 @@ def fetch_activity(request, **kwargs):
     return JsonResponse(data={"activity": data})
 
 
+@jwt_required()
+def mark_as_read(request, **kwargs):
+    request_user_id = kwargs.get("request_user")
+    last = request.GET.get("last")
+
+    query = {}
+    if last:
+        query = {"id__gt": last}
+
+    Activity.objects.filter(receipient__id=request_user_id, read=False).exclude(
+        **query
+    ).update(read=True)
+
+    firebase_initialization()
+    db = firestore.client()
+
+    batch = db.batch()
+    col_ref: fr.CollectionReference = (
+        db.collection("users").document(str(request_user_id)).collection("activities")
+    )
+    results = col_ref.where("read", "==", False).get()
+    for doc in results:
+        batch.update(doc.reference, {"read": True})
+    batch.commit()
+
+    return JsonResponse(
+        data={"message": "Activity marked as read", "read": len(results)}
+    )
+
+
 def activity(
     receipient: User,
     activity_type: ActivityType,
@@ -83,7 +113,7 @@ def activity(
     col_ref: fr.CollectionReference = (
         db.collection("users").document(str(receipient.id)).collection("activities")
     )
-    col_ref.add(data)
+    col_ref.add(data, str(activity_obj.id))
 
     device = Device.objects.filter(user__id=receipient.id).last()
 
@@ -93,7 +123,7 @@ def activity(
             notification=messaging.Notification(
                 title=f"@{data['user']['username']}",
                 body=description,
-                image=media.high,
+                image=media.high if media else None,
             ),
             android=messaging.AndroidConfig(
                 notification=messaging.AndroidNotification(
