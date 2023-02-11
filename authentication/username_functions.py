@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from users.models import User
 
 
-allowed_characters = "abcdefghijklmnopqrstuvwxyz1234567890 ._"
+allowed_characters = "abcdefghijklmnopqrstuvwxyz1234567890._"
 
 
 def validate_username(username):

@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from challenges.models import Challenge
 from media.serializers import Photo, Video
 
-from posts.models import Post, Tag
+from posts.models import Mention, Post, Tag
 from posts.serializers import PostSerializer
 from users.models import User
 from users.category import Category
@@ -177,4 +177,42 @@ def save_tags(post: Post, tag: str):
 
 
 def save_mentions(post: Post, caption: str):
-    pass
+    allowed_characters = "abcdefghijklmnopqrstuvwxyz1234567890._"
+
+    words: List = caption.split(" ")
+    mentions = []
+
+    for word in words:
+
+        if word.startswith("@"):
+            mention: str = ""
+            spoilt = False
+            for i in range(len(word)):
+                letter = word[i]
+
+                if (
+                    (
+                        letter in allowed_characters
+                        or letter.lower() in allowed_characters
+                    )
+                    and len(mention) < 15
+                    and not spoilt
+                ):
+                    mention += letter.lower()
+                else:
+                    if letter != "@":
+                        spoilt = True
+                    elif letter == "@" and mention != "":
+                        mentions.append(mention)
+                        mention = ""
+
+            try:
+                user = User.objects.filter(username=mention).get()
+            except ObjectDoesNotExist:
+                continue
+            else:
+                mentions.append(mention)
+                obj = Mention(post=post, username=mention, user=user)
+                obj.save()
+
+    return mentions

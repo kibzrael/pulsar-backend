@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from posts.models import Comment, CommentLike, Like, Post, Repost
+from posts.models import Comment, CommentLike, Like, Mention, Post, Repost, Tag
 from challenges.serializers import MinimialChallengeSerializer
 from media.serializers import PhotoSerializer, VideoSerializer
 from users.serializers import MinimalUserSerializer
@@ -29,6 +29,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     points = serializers.SerializerMethodField(method_name="points_method")
 
+    tags = serializers.SerializerMethodField(method_name="tags_method")
+    mentions = serializers.SerializerMethodField(method_name="mentions_method")
+
     def is_liked_method(self, instance):
         request_user_id = self.context.get("request_user_id")
         try:
@@ -56,6 +59,28 @@ class PostSerializer(serializers.ModelSerializer):
         except:
             return 0
 
+    def tags_method(self, instance):
+        try:
+            tags = Tag.objects.filter(post=instance, explicit=True)
+            return list(map(lambda x: x.tag, tags))
+        except:
+            return []
+
+    def mentions_method(self, instance):
+        request_user_id = self.context.get("request_user_id")
+        try:
+            mentions = Mention.objects.filter(post=instance)
+            return list(
+                map(
+                    lambda x: MinimalUserSerializer(
+                        x.user, context={"request_user_id": request_user_id}
+                    ).data,
+                    mentions,
+                )
+            )
+        except:
+            return []
+
     class Meta:
         model = Post
         fields = [
@@ -75,6 +100,8 @@ class PostSerializer(serializers.ModelSerializer):
             "ratio",
             "reposts",
             "points",
+            "tags",
+            "mentions",
         ]
 
 
