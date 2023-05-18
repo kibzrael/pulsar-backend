@@ -27,10 +27,12 @@ def user_posts(request, user_id, **kwargs):
 
     if index == 0:
         # user posts
-        posts_query = Post.objects.filter(user=user)[offset : limit + offset]
+        posts_query = Post.objects.filter(user=user).order_by("-time")[
+            offset : limit + offset
+        ]
     else:
         # user reposts
-        posts_query = Post.objects.filter(post_repost__user=user)[
+        posts_query = Post.objects.filter(post_repost__user=user).order_by("-time")[
             offset : limit + offset
         ]
     posts = []

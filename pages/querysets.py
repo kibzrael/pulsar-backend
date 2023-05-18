@@ -68,7 +68,7 @@ def discover_challenges(user: User, tag: str, offset: int = 0, limit: int = 12) 
                 | Q(post__user__interest__category__parent__in=interests_id)
                 | Q(post__user__interest__category__subcategoryId__in=interests_id)
             )
-            .order_by("engagement")[offset : offset + limit]
+            .order_by("-engagement")[offset : offset + limit]
         )
         # .distinct('id')
     elif tag == "For you":

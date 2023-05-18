@@ -1,8 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
+from django.db.models import Count
 from challenges.models import Challenge
 from posts.models import Post
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, points_calculation
 from pulsar.decorators.jwt_required import jwt_required
 
 
@@ -26,9 +27,17 @@ def challenge_posts(request, challenge_id, **kwargs):
         )
 
     posts_query = (
-        Post.objects.filter(challenge=challenge)[offset : limit + offset]
+        Post.objects.filter(challenge=challenge).order_by("-time")[
+            offset : limit + offset
+        ]
         if index == 0
-        else Post.objects.filter(challenge=challenge)[offset : limit + offset]
+        else Post.objects.annotate(
+            engagement=Count("post_like", distinct=True)
+            + Count("post_comment", distinct=True)
+            + Count("post_repost", distinct=True)
+        )
+        .filter(challenge=challenge)
+        .order_by("-engagement")[offset : limit + offset]
     )
     posts = []
 

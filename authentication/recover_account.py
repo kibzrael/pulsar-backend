@@ -46,7 +46,7 @@ def recover_account(request):
             "user": {
                 "id": user.id,
                 "username": user.username,
-                "category": user.category,
+                "category": user.category.user,
                 "profile_pic": PhotoSerializer(instance=user.profile_pic).data,
                 "email": user.email,
                 "jwtToken": token,

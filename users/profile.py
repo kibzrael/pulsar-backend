@@ -1,17 +1,17 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.http.response import JsonResponse
-from django.views import View
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
-from media.serializers import Photo
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
+from media.photo import upload_photo
+from media.serializers import Photo
+from pulsar.decorators.jwt_required import jwt_required
+from users.category import Category
+from users.interests import get_interests, save_interests
 from users.models import User
 from users.serializers import UserSerializer
-from users.category import Category
-from pulsar.decorators.jwt_required import jwt_required
-from media.photo import upload_photo
-from users.interests import get_interests, save_interests
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -128,7 +128,7 @@ class Profile(View):
             User.objects.filter(id=user_id).update(
                 category=category,
                 bio=bio,
-                date_of_birth=date_of_birth,
+                date_of_birth=date_of_birth if date_of_birth else None,
                 portfolio=portfolio,
                 fullname=fullname,
                 profile_pic=profile_pic_media,
