@@ -12,7 +12,7 @@ runtime_config:
 
 resources:
   cpu: 1
-  memory_gb: 1.0
+  memory_gb: 0.6
 
 automatic_scaling:
   min_num_instances: 1

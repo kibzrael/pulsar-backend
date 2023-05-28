@@ -1,14 +1,17 @@
-from django.http import JsonResponse
+import random
+
 from django.core.exceptions import ObjectDoesNotExist
-from media.serializers import PhotoSerializer
-from users.models import User
 from django.db.models import Q
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+from media.serializers import PhotoSerializer
+from pulsar.email import send_template_email
+from users.models import User
 
 
 @csrf_exempt
 def recover_account(request):
-
     if request.method != "POST":
         return JsonResponse(
             status=405, data={"message": "The method you're using is invalid"}
@@ -34,9 +37,15 @@ def recover_account(request):
 
     token = user.generate_token()
 
-    code: int = 2495
+    code: int = random.randint(1000, 9999)
 
     #   Send code to email/phone
+    send_template_email(
+        user.email,
+        "Account Recovery",
+        "recover_account",
+        {"code": code, "full_name": user.fullname},
+    )
 
     return JsonResponse(
         status=200,

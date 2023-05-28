@@ -68,6 +68,7 @@ class Profile(View):
         # Y-M-D
         date_of_birth = request.POST.get("DOB", user.date_of_birth)
         portfolio = request.POST.get("portfolio", user.portfolio)
+        email_verified = request.POST.get("email_verified", user.email_verified)
         interests = request.POST.get("interests", "")
 
         remove_profile_pic = request.POST.get("removeProfilePic", False)
@@ -132,6 +133,7 @@ class Profile(View):
                 portfolio=portfolio,
                 fullname=fullname,
                 profile_pic=profile_pic_media,
+                email_verified=email_verified,
             )
         except ValidationError:
             return JsonResponse(

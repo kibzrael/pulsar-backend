@@ -1,12 +1,13 @@
 from django.urls import path
 
-from authentication.login import log_in
-from authentication.signup import sign_up
-from authentication import google, facebook
-from authentication.change_username import change_username
+from authentication import facebook, google
 from authentication.change_password import change_password
+from authentication.change_username import change_username
+from authentication.login import log_in
 from authentication.recover_account import recover_account
 from authentication.reset_password import reset_password
+from authentication.signup import sign_up
+from authentication.verify_email import verify_email
 
 urlpatterns = [
     path("login", log_in),
@@ -21,5 +22,6 @@ urlpatterns = [
     path("change_username", change_username, name="change_username"),
     path("change_password", change_password, name="change_password"),
     path("recover_account", recover_account),
+    path("verify_email", verify_email),
     path("reset_password", reset_password),
 ]

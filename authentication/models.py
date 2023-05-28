@@ -1,8 +1,8 @@
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
-from django.utils import timezone
-
 import jwt
+from django.contrib.auth.models import AbstractBaseUser
+from django.db import models
+from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 from authentication.user_manager import UserManager
 from media.models import Photo
@@ -26,6 +26,8 @@ class User(AbstractBaseUser):
     date_of_birth = models.DateField(null=True, blank=True)
     date_joined = models.DateField(default=timezone.localdate)
     portfolio = models.URLField(null=True, blank=True)
+
+    email_verified = models.BooleanField(default=False)
 
     objects = UserManager()
 

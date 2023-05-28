@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     "posts",
     "search",
     "users",
+    "reports",
+    "phonenumber_field",
     "rest_framework",
 ]
 
