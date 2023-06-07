@@ -1,6 +1,6 @@
 import random
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -18,15 +18,20 @@ def verify_email(request):
         )
 
     email = request.POST.get("email")
+    username = request.POST.get("username")
 
     if not email:
         return JsonResponse(status=401, data={"message": "Please enter a valid email"})
 
     try:
-        user: User = User.objects.filter(Q(email=email)).get()
+        user: User = User.objects.filter(Q(email=email) | Q(username = username)).get()
     except ObjectDoesNotExist:
         return JsonResponse(
             status=404, data={"message": "The user you've entered does not exist."}
+        )
+    except MultipleObjectsReturned:
+        return JsonResponse(
+            status=409, data={"message": "The email already exists."}
         )
 
     token = user.generate_token()
@@ -35,7 +40,7 @@ def verify_email(request):
 
     #   Send code to email/phone
     send_template_email(
-        user.email,
+        email if username else user.email ,
         "Email Verification",
         "verify_email",
         {"code": code, "full_name": user.fullname},

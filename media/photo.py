@@ -1,11 +1,11 @@
 import io
 from typing import List
-from PIL import Image
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from firebase_admin import storage
 from firebase_admin.storage import bucket
 from google.cloud.storage import blob
+from PIL import Image
 
 from media.cert import firebase_initialization
 
@@ -34,8 +34,9 @@ def upload_photo(img: InMemoryUploadedFile, path: str, previous_links: List) -> 
         image_bytes = io.BytesIO()
         resized_image.save(image_bytes, "jpeg")
         resized_image.close()
-        image_blob: blob = default_bucket.blob(f'{path}-{resolution.get("name")}.jpg')
-        blobs.append(f'{path}-{resolution.get("name")}.jpg')
+        blob_path = f'{path}-{resolution.get("name")}.jpg'
+        image_blob: blob = default_bucket.blob(blob_path)
+        blobs.append(blob_path)
         image_blob.upload_from_string(image_bytes.getvalue(), content_type="image/jpeg")
 
         image_blob.make_public()

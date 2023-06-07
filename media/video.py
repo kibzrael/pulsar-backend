@@ -1,13 +1,15 @@
-from datetime import datetime
 import subprocess
+from datetime import datetime
 from tempfile import TemporaryFile
 from typing import List
+
 from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 
 # import ffmpeg
 from firebase_admin import storage
 from firebase_admin.storage import bucket
 from google.cloud.storage import blob
+
 from media.cert import firebase_initialization
 from media.cuttly import shorten_url
 
@@ -70,7 +72,6 @@ def upload_video(
     if source_medium and source_low:
         files = [source_low, source_medium, source]
     else:
-
         temp_dir = "/tmp"
         now = datetime.now()
         cmd = ["ffmpeg", "-i", "pipe:"]
@@ -101,8 +102,9 @@ def upload_video(
     index = 0
 
     for resolution in resolutions:
-        video_blob: blob = default_bucket.blob(f'{path}-{resolution["name"]}.mp4')
-        blobs.append(f'{path}-{resolution["name"]}.mp4')
+        blob_path = f'{path}-{resolution["name"]}.mp4'
+        video_blob: blob = default_bucket.blob(blob_path)
+        blobs.append(blob_path)
         # TODO Use source_medium and source_high if ffmpeg fails
         if len(files) < 1:
             video_blob.upload_from_filename(

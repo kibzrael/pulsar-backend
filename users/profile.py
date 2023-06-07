@@ -68,8 +68,13 @@ class Profile(View):
         # Y-M-D
         date_of_birth = request.POST.get("DOB", user.date_of_birth)
         portfolio = request.POST.get("portfolio", user.portfolio)
-        email_verified = request.POST.get("email_verified", user.email_verified)
         interests = request.POST.get("interests", "")
+
+        email_verified, verified_input = False, request.POST.get(
+            "email_verified", user.email_verified
+        )
+        if verified_input and verified_input != "false":
+            email_verified = True
 
         remove_profile_pic = request.POST.get("removeProfilePic", False)
 

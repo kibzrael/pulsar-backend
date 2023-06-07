@@ -1,7 +1,7 @@
 from rest_framework import serializers
+
 from authentication.models import User
 from media.serializers import PhotoSerializer
-
 from users.models import Activity, Follow
 
 
@@ -36,6 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_following",
             "posts",
             "followers",
+            "email_verified",
             "date_of_birth",
             "date_joined",
             "is_superuser",

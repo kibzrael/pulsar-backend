@@ -17,8 +17,10 @@ class User(AbstractBaseUser):
     )
     solo = models.BooleanField(default=True)
     fullname = models.CharField(max_length=24)
-    email = models.EmailField(null=False, max_length=254, verbose_name="Email Address")
-    # phone = PhoneNumberField( null=True, max_length=50, verbose_name='Phone Number')
+    email = models.EmailField(
+        null=False, max_length=254, unique=True, verbose_name="Email Address"
+    )
+    # phone = PhoneNumberField( null=True, max_length=50, unique=True, verbose_name='Phone Number')
     profile_pic = models.OneToOneField(
         Photo, on_delete=models.SET_NULL, null=True, blank=True
     )

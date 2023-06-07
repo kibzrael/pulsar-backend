@@ -1,6 +1,7 @@
 from django.urls import path
 
 from authentication import facebook, google
+from authentication.change_email import change_email
 from authentication.change_password import change_password
 from authentication.change_username import change_username
 from authentication.login import log_in
@@ -20,6 +21,7 @@ urlpatterns = [
     path("facebook/signup", facebook.sign_up),
     #
     path("change_username", change_username, name="change_username"),
+    path("change_email", change_email, name="change_email"),
     path("change_password", change_password, name="change_password"),
     path("recover_account", recover_account),
     path("verify_email", verify_email),
