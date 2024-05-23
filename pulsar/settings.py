@@ -132,6 +132,10 @@ DATABASES = {
         "PASSWORD": env("DATABASE_PASSWORD"),
         "PORT": 5432,
         "HOST": "ep-dark-dew-a2az8k7a-pooler.eu-central-1.aws.neon.tech",
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
 
