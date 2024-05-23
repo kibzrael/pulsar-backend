@@ -111,29 +111,29 @@ WSGI_APPLICATION = "pulsar.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {"default": env.db()}
-DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
-DATABASES["default"]["HOST"] = env("DATABASE_HOST")
-DATABASES["default"]["PORT"] = 5432
+# DATABASES = {"default": env.db()}
+# DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+# DATABASES["default"]["HOST"] = env("DATABASE_HOST")
+# DATABASES["default"]["PORT"] = 5432
 
 # If the flag as been set, configure to use proxy
-if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
-    DATABASES["default"]["HOST"] = "127.0.0.1"
-    DATABASES["default"]["PORT"] = 5433
+# if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+#     DATABASES["default"]["HOST"] = "127.0.0.1"
+#     DATABASES["default"]["PORT"] = 5433
 
 if not os.getenv("GAE_APPLICATION", None):
     # use local database
     pass
-    # DATABASES = {
-    #     "default": {
-    #         "ENGINE": "django.db.backends.postgresql",
-    #         "NAME": "pulsar",
-    #         "USER": "root",
-    #         "PASSWORD": "kibzrael",
-    #         "PORT": 5432,
-    #         "HOST": "localhost",
-    #     }
-    # }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "pulsar",
+        "USER": "root",
+        "PASSWORD": env("DATABASE_PASSWORD"),
+        "PORT": 5432,
+        "HOST": "ep-dark-dew-a2az8k7a-pooler.eu-central-1.aws.neon.tech",
+    }
+}
 
 
 # Password validation
