@@ -105,7 +105,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "pulsar.wsgi.application"
+WSGI_APPLICATION = "pulsar.wsgi.app"
 
 
 # Database
@@ -126,7 +126,7 @@ if not os.getenv("GAE_APPLICATION", None):
     pass
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "pulsar",
         "USER": "root",
         "PASSWORD": env("DATABASE_PASSWORD"),
